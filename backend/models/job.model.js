@@ -17,11 +17,13 @@ const jobSchema = new mongoose.Schema(
         type_of_job: {type: String, required: true},
         duration: {type: String, required: true},
         salary: {type: Number, required: true},
-        rating: {type: Number, required: true},
+        total_rating: {type: Number, required: true},
+        total_number_of_ratings: {type: Number, required: true},
     },
     {
         timestamps: true,
     }
 );
 
-const
+const Job = mongoose.model('Job', jobSchema);
+module.exports = Job;

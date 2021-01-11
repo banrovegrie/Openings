@@ -33,6 +33,16 @@ connection.once('open', () => {
 });
 
 
+// Adding API endpoint routes
+const jobsRouter = require('./routes/jobs');
+const applicantsRouter = require('./routes/applicants');
+const recruitersRouter = require('./routes/recruiters');
+
+app.use('/jobs', jobsRouter);
+app.use('/applicants', applicantsRouter);
+app.use('/recruiters', recruitersRouter);
+
+
 // Check if connection works from port
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`)
