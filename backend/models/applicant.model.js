@@ -11,9 +11,19 @@ const applicantSchema = new mongoose.Schema(
             start_year: {type: Date, required: true},
             end_year: {type: Date, required: false},
         },
-        skills: {type: Array, required: true},
+        skills: {type: [String], required: true},
         total_rating: {type: Number, required: true},
         total_number_of_ratings: {type: Number, required: true},
+        applications:
+        {
+            type:[{
+                id: {type: String},
+                title: {type: String},
+                email: {type: mongoose.SchemaTypes.Email},
+                status: {type: String}
+            }],
+            default: []
+        }
     },
     {
         timestamps: true,

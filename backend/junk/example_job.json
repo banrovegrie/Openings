@@ -1,0 +1,115 @@
+[
+{
+    "title": "Pornhub Actor",
+    "recruiter": 
+    {
+        "id": "5ffdd268c06c26455c6314d1",
+        "name": "MindGeek",
+        "email": "category@theory.com"
+    },
+    "max_number_of_applications": "1000",
+    "max_number_of_positions": "2",
+    "deadline": "2021-02-02", 
+    "skills": ["java", "cpp"],
+    "type_of_job": "fulltime",
+    "duration": "6",
+    "salary": "100202",
+    "total_rating": "453",
+    "total_number_of_ratings": "100"
+},
+
+{
+    "title": "Homelander from Boys",
+    "recruiter": 
+    {
+        "id": "5ffdd268c06c26455c6314d1",
+        "name": "MindGeek",
+        "email": "category@theory.com"
+    },
+    "max_number_of_applications": "100",
+    "max_number_of_positions": "1",
+    "deadline": "2021-02-02", 
+    "skills": ["java", "js"],
+    "type_of_job": "fulltime",
+    "duration": "5",
+    "salary": "200202",
+    "total_rating": "444",
+    "total_number_of_ratings": "100"
+},
+
+{
+    "title": "Mars Colonizer",
+    "recruiter": 
+    {
+        "id": "5ffdd296c06c26455c6314d2",
+        "name": "Google",
+        "email": "google@company.com"
+    },
+    "max_number_of_applications": "1010",
+    "max_number_of_positions": "3",
+    "deadline": "2021-02-02", 
+    "skills": ["python", "js"],
+    "type_of_job": "parttime",
+    "duration": "4",
+    "salary": "54502",
+    "total_rating": "498",
+    "total_number_of_ratings": "100"
+},
+
+{
+    "title": "Deep Sea Diver",
+    "recruiter": 
+    {
+        "id": "5ffdd296c06c26455c6314d2",
+        "name": "Google",
+        "email": "google@company.com"
+    },
+    "max_number_of_applications": "1111",
+    "max_number_of_positions": "1",
+    "deadline": "2021-03-02", 
+    "skills": ["python", "cpp"],
+    "type_of_job": "fulltime",
+    "duration": "4",
+    "salary": "154502",
+    "total_rating": "333",
+    "total_number_of_ratings": "100"
+},
+
+{
+    "title": "Wrestler",
+    "recruiter": 
+    {
+        "id": "5ffdd2ddc06c26455c6314d3",
+        "name": "Yahoo",
+        "email": "yahoo@company.com"
+    },
+    "max_number_of_applications": "1021",
+    "max_number_of_positions": "4",
+    "deadline": "2021-04-01", 
+    "skills": ["java", "cpp"],
+    "type_of_job": "fulltime",
+    "duration": "2",
+    "salary": "154512",
+    "total_rating": "199",
+    "total_number_of_ratings": "100"
+},
+
+{
+    "title": "Memer",
+    "recruiter": 
+    {
+        "id": "5ffdd31dc06c26455c6314d4",
+        "name": "Xiaomi",
+        "email": "xiaomi@company.com"
+    },
+    "max_number_of_applications": "1024",
+    "max_number_of_positions": "1",
+    "deadline": "2021-02-10", 
+    "skills": ["java", "cpp"],
+    "type_of_job": "fulltime",
+    "duration": "3",
+    "salary": "224532",
+    "total_rating": "499",
+    "total_number_of_ratings": "100"
+}
+]

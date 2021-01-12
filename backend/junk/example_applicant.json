@@ -1,0 +1,71 @@
+[
+{
+    "name": "Shreyas Pradhan",
+    "email": "shpradhan@yes.in",
+    "education":
+    {
+        "institute": "Uganda Institute",
+        "start_year": "2019-06-01",
+        "end_year": "2027-09-09"
+    },
+    "skills": ["java", "cpp"],
+    "total_rating": "2",
+    "total_number_of_ratings": "5"
+},
+
+{
+    "name": "Zeeshan Ahmed",
+    "email": "zshan@yes.in",
+    "education":
+    {
+        "institute": "MIT",
+        "start_year": "2019-06-01",
+        "end_year": "2027-09-09"
+    },
+    "skills": ["js", "cpp"],
+    "total_rating": "15",
+    "total_number_of_ratings": "5"
+},
+
+{
+    "name": "Shaanjeet Grover",
+    "email": "shanju@yes.in",
+    "education":
+    {
+        "institute": "IIIT",
+        "start_year": "2019-07-01",
+        "end_year": "2024-08-09"
+    },
+    "skills": ["js", "python"],
+    "total_rating": "11",
+    "total_number_of_ratings": "5"
+},
+
+{
+    "name": "Alapan Chaudhuri",
+    "email": "arjo@yes.in",
+    "education":
+    {
+        "institute": "UwU",
+        "start_year": "2019-03-01",
+        "end_year": "2024-03-09"
+    },
+    "skills": ["python", "java"],
+    "total_rating": "1",
+    "total_number_of_ratings": "5"
+},
+
+{
+    "name": "Hrishi Narayanan",
+    "email": "hr@yes.in",
+    "education":
+    {
+        "institute": "Stanford",
+        "start_year": "2019-03-01",
+        "end_year": "2025-03-09"
+    },
+    "skills": ["cpp", "js"],
+    "total_rating": "25",
+    "total_number_of_ratings": "5"
+}
+]

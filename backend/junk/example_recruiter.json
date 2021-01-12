@@ -1,0 +1,29 @@
+[
+{
+    "name": "MindGeek",
+    "email": "category@theory.com",
+    "contact": "2293729379",
+    "bio": "We do cool stuff and don't pay people much. We don't know about employee rights."
+},
+
+{
+    "name": "Google",
+    "email": "google@company.com",
+    "contact": "2293729339",
+    "bio": "Don't be evil."
+},
+
+{
+    "name": "Yahoo",
+    "email": "yahoo@company.com",
+    "contact": "1234729339",
+    "bio": "We are worse than google."
+},
+
+{
+    "name": "Xiaomi",
+    "email": "xiaomi@company.com",
+    "contact": "3124567895",
+    "bio": "Making mobiles in low price."
+}
+]

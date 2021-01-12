@@ -6,7 +6,7 @@ const recruiterSchema = new mongoose.Schema(
         name: {type: String, required: true},
         email: {type: mongoose.SchemaTypes.Email, required: true},
         contact: {type: Number, required: true},
-        Bio: {type: String, required: true},
+        bio: {type: String, required: true},
     },
     {
         timestamps: true,
