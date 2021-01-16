@@ -2,6 +2,7 @@
 {
     "name": "Shreyas Pradhan",
     "email": "shpradhan@yes.in",
+    "password": "yeswecangg",
     "education":
     {
         "institute": "Uganda Institute",
@@ -16,6 +17,7 @@
 {
     "name": "Zeeshan Ahmed",
     "email": "zshan@yes.in",
+    "password": "yeswecangk",
     "education":
     {
         "institute": "MIT",
@@ -30,6 +32,7 @@
 {
     "name": "Shaanjeet Grover",
     "email": "shanju@yes.in",
+    "password": "yeswecangl",
     "education":
     {
         "institute": "IIIT",
@@ -44,6 +47,7 @@
 {
     "name": "Alapan Chaudhuri",
     "email": "arjo@yes.in",
+    "password": "yeswecangm",
     "education":
     {
         "institute": "UwU",
@@ -58,6 +62,7 @@
 {
     "name": "Hrishi Narayanan",
     "email": "hr@yes.in",
+    "password": "yeswecangs",
     "education":
     {
         "institute": "Stanford",

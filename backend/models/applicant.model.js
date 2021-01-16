@@ -5,6 +5,7 @@ const applicantSchema = new mongoose.Schema(
     {
         name: {type: String, required: true},
         email: {type: mongoose.SchemaTypes.Email, required: true},
+        password: {type: String, required: true},
         education:
         {
             institute: {type: String, required: true},
@@ -12,8 +13,8 @@ const applicantSchema = new mongoose.Schema(
             end_year: {type: Date, required: false},
         },
         skills: {type: [String], required: true},
-        total_rating: {type: Number, required: true},
-        total_number_of_ratings: {type: Number, required: true},
+        total_rating: {type: Number, required: true, default: 0},
+        total_number_of_ratings: {type: Number, required: true, default: 0},
         applications:
         {
             type:[{
