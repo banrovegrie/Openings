@@ -5,6 +5,7 @@ const recruiterSchema = new mongoose.Schema(
     {
         name: {type: String, required: true},
         email: {type: mongoose.SchemaTypes.Email, required: true},
+        password: {type: String, required: true},
         contact: {type: Number, required: true},
         bio: {type: String, required: true},
     },
