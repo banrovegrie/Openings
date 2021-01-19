@@ -14,7 +14,7 @@ router.route('/').get((req, res) => {
 router.route('/add').post((req, res) => {
     const name = req.body.name;
     const email = req.body.email;
-    const password = req.body.email;
+    const password = req.body.password;
     const contact = +Number(req.body.contact);
     const bio = req.body.bio;
 

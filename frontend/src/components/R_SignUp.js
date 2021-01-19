@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,6 +37,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function R_SignUp() {
   const classes = useStyles();
+  const history = useHistory();
+
+  sessionStorage.setItem('globalID', '0');
+
+  let [signup, setSignup] = useState(
+    {
+      name: ' ',
+      password: ' ',
+      email: ' ',
+      contact: ' ',
+      bio: ' '
+    }
+  );
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    axios.post('http://localhost:5000/recruiters/add', signup)
+      .then(response => {
+        console.log(response);
+        history.push('/');
+      })
+      .catch(err => console.log(err));
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -46,7 +71,10 @@ export default function R_SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} 
+          noValidate
+          onSubmit={handleSubmit}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -57,6 +85,13 @@ export default function R_SignUp() {
                 label="Name"
                 name="Name"
                 autoComplete="name"
+                onChange = {event => {
+                  setSignup(signup = {
+                    ...signup,
+                    name: event.target.value
+                  });
+                  console.log(signup);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -68,6 +103,13 @@ export default function R_SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange = {event => {
+                  setSignup(signup = {
+                    ...signup,
+                    email: event.target.value
+                  });
+                  console.log(signup);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -80,6 +122,13 @@ export default function R_SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange = {event => {
+                  setSignup(signup = {
+                    ...signup,
+                    password: event.target.value
+                  });
+                  console.log(signup);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -92,6 +141,13 @@ export default function R_SignUp() {
                 type="number"
                 id="contact"
                 autoComplete="contact"
+                onChange = {event => {
+                  setSignup(signup = {
+                    ...signup,
+                    contact: event.target.value
+                  });
+                  console.log(signup);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -102,6 +158,13 @@ export default function R_SignUp() {
                 name="bio"
                 label="Bio"
                 id="bio"
+                onChange = {event => {
+                  setSignup(signup = {
+                    ...signup,
+                    bio: event.target.value
+                  });
+                  console.log(signup);
+                }}
               />
             </Grid>
           </Grid>

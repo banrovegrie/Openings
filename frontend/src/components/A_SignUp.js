@@ -30,6 +30,34 @@ const useStyles = makeStyles((theme) => ({
 
 export default function A_SignUp() {
   const classes = useStyles();
+  const history = useHistory();
+
+  sessionStorage.setItem('globalID', '0');
+
+  let [signup, setSignup] = useState(
+    {
+      name: " ",
+      email: " ",
+      password: " ",
+      education:
+      {
+        institute: " ",
+        start_year: " ",
+        end_year: " "
+      },
+      skills: ["haskell", "cpp", "python"]
+    }
+  );
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    axios.post('http://localhost:5000/applicants/add', signup)
+      .then(response => {
+        console.log(response);
+        history.push('/');
+      })
+      .catch(err => console.log(err));
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -41,7 +69,10 @@ export default function A_SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} 
+          noValidate
+          onSubmit={handleSubmit}
+        >
           <Grid container spacing={2}>
           <Grid item xs={12}>
               <TextField
@@ -52,6 +83,21 @@ export default function A_SignUp() {
                 label="Name"
                 name="Name"
                 autoComplete="name"
+                onChange = {event => {
+                  setSignup(signup = {
+                    name: event.target.value,
+                    email: signup.email,
+                    password: signup.password,
+                    education:
+                    {
+                        institute: signup.education.institute,
+                        start_year: signup.education.start_year,
+                        end_year: signup.education.start_year
+                    },
+                    skills: signup.skills
+                  });
+                  console.log(signup);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -63,6 +109,21 @@ export default function A_SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange = {event => {
+                  setSignup(signup = {
+                    name: signup.name,
+                    email: event.target.value,
+                    password: signup.password,
+                    education:
+                    {
+                        institute: signup.education.institute,
+                        start_year: signup.education.start_year,
+                        end_year: signup.education.start_year
+                    },
+                    skills: signup.skills
+                  });
+                  console.log(signup);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -75,6 +136,21 @@ export default function A_SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange = {event => {
+                  setSignup(signup = {
+                    name: signup.name,
+                    email: signup.email,
+                    password: event.target.value,
+                    education:
+                    {
+                        institute: signup.education.institute,
+                        start_year: signup.education.start_year,
+                        end_year: signup.education.start_year
+                    },
+                    skills: signup.skills
+                  });
+                  console.log(signup);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -85,6 +161,21 @@ export default function A_SignUp() {
               name="institute"
               label="Institute"
               id="institute"
+              onChange = {event => {
+                setSignup(signup = {
+                  name: signup.name,
+                  email: signup.email,
+                  password: signup.password,
+                  education:
+                  {
+                      institute: event.target.value,
+                      start_year: signup.education.start_year,
+                      end_year: signup.education.start_year
+                  },
+                  skills: signup.skills
+                });
+                console.log(signup);
+              }}
             />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -92,10 +183,25 @@ export default function A_SignUp() {
               id="start_year"
               label="Start"
               type="date"
-              defaultValue="2001-01-01"
+              //defaultValue="2001-01-01"
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
+              }}
+              onChange = {event => {
+                setSignup(signup = {
+                  name: signup.name,
+                  email: signup.email,
+                  password: signup.password,
+                  education:
+                  {
+                      institute: signup.education.institute,
+                      start_year: event.target.value,
+                      end_year: signup.education.start_year
+                  },
+                  skills: signup.skills
+                });
+                console.log(signup);
               }}
             />
             </Grid>
@@ -104,10 +210,25 @@ export default function A_SignUp() {
               id="end_year"
               label="End"
               type="date"
-              defaultValue="2005-01-01"
+              //defaultValue="2005-01-01"
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
+              }}
+              onChange = {event => {
+                setSignup(signup = {
+                  name: signup.name,
+                  email: signup.email,
+                  password: signup.password,
+                  education:
+                  {
+                      institute: signup.education.institute,
+                      start_year: signup.education.start_year,
+                      end_year: event.target.value
+                  },
+                  skills: signup.skills
+                });
+                console.log(signup);
               }}
             />
             </Grid>
@@ -117,9 +238,26 @@ export default function A_SignUp() {
                 required
                 fullWidth
                 name="skills"
-                label="Skills"
+                label="Skills (comma separated)"
                 id="skills"
                 defaultValue="haskell, cpp, python"
+                onChange = {event => {
+                  let str = event.target.value;
+                  let arr = str.split(',').map(element => element.trim())
+                  setSignup(signup = {
+                    name: signup.name,
+                    email: signup.email,
+                    password: signup.password,
+                    education:
+                    {
+                        institute: signup.education.institute,
+                        start_year: signup.education.start_year,
+                        end_year: signup.education.start_year
+                    },
+                    skills: arr
+                  });
+                  console.log(signup);
+                }}
               />
             </Grid>
           </Grid>

@@ -19,8 +19,8 @@ router.route('/add').post((req, res) => {
     const start_year = Date.parse(req.body.education.start_year);
     const end_year = Date.parse(req.body.education.end_year);
     const skills = req.body.skills;
-    const total_rating = +Number(req.body.total_rating);
-    const total_number_of_ratings = +Number(req.body.total_number_of_ratings);
+    //const total_rating = +Number(req.body.total_rating);
+    //const total_number_of_ratings = +Number(req.body.total_number_of_ratings);
 
 	const newApplicant = new Applicant({
         name,
@@ -32,9 +32,7 @@ router.route('/add').post((req, res) => {
             start_year,
             end_year,
         },
-        skills,
-        total_rating,
-        total_number_of_ratings
+        skills
 	});
 
     newApplicant.save()
