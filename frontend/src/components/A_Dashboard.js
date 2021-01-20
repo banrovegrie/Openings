@@ -131,6 +131,8 @@ export default function PersistentDrawerLeft() {
     console.log(jobData);
   }
 
+  console.log('globalID ' + sessionStorage.getItem('globalID'));
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -224,7 +226,7 @@ export default function PersistentDrawerLeft() {
                     <li>Deadline: {(new Date(job.deadline)).toDateString()}</li>
                     <li>Type of Job: {job.type_of_job}</li>
                     <li>Duration: {job.duration} Months</li>
-                    <li>Skills Required: {job.skills.map(skill => skill+", ")}</li>
+                    <li>Skills Required: {job.skills.join(", ")}</li>
                   </ul>
                   <Typography variant={'subtitle1'}>Further Job Details</Typography>
                   <ul>
