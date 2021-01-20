@@ -32,6 +32,7 @@ export default function SignIn() {
   const classes = useStyles();
   const history = useHistory();
 
+  sessionStorage.setItem('globalID', '0');
   console.log(sessionStorage.getItem('globalID'));
   let [login, setLogin] = useState(
     {
