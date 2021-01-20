@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { 
@@ -6,7 +6,7 @@ import {
     Toolbar, List, Typography,
     Divider, IconButton, ListItem,
     ListItemIcon, ListItemText, 
-    Button, Paper
+    Button, Paper, Grid
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -16,6 +16,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import axios from 'axios';
+import Rating from '@material-ui/lab/Rating';
 import { BrowserRouter as Router, useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -86,18 +87,26 @@ const useStyles2 = makeStyles((theme) => ({
     },
   },
   paperContent: {
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(5),
-    marginLeft: theme.spacing(4),
-    marginRight: theme.spacing(4),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    marginLeft: theme.spacing(5),
+    marginRight: theme.spacing(5),
   },
+}));
+
+const useStyles3 = makeStyles((theme) =>({
+  root: {
+    minWidth: 800,
+  }
 }));
 
 export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const classes2 = useStyles2();
+  const classes3 = useStyles3();
+
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const history = useHistory();
 
@@ -108,6 +117,19 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const [jobData, setJobData] = useState([]);
+  const [toAxios, setToAxios] = useState(true);
+
+  if (toAxios)
+  {
+    axios.get('http://localhost:5000/jobs')
+      .then(res => {
+        setJobData(res.data);
+        setToAxios(false)
+      });
+    console.log(jobData);
+  }
 
   return (
     <div className={classes.root}>
@@ -186,50 +208,38 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <div className={classes.drawerHeader} />
-        <h1 align='center'>Welcome to Bible</h1>
 
-        <div className={classes2.root}>
-          <Paper elevation={6}>
-            <div className={classes2.paperContent}>
-            <Typography paragraph>
-              After Sodom was destroyed, Lot took his two daughters to 
-              live with them in a cave (like ya do). One day, his older 
-              daughter said to the younger: “Our father is old, and there 
-              is no man around here to give us children — as is the custom 
-              all over the earth. Let’s get our father to drink wine and then 
-              sleep with him and preserve our family line through our father.” (Genesis 19:30)
-            </Typography>
-            </div>
-          </Paper>
-        </div>
-        <br/> <br/>
-        <div className={classes2.root}>
-          <Paper elevation={6}>
-            <div className={classes2.paperContent}>
-              <Typography paragraph>
-                This plan worked out so well that the younger daughter did 
-                it the following night, with Lot being entirely unaware of it 
-                again, somehow! “So they got their father to drink wine that night 
-                also, and the younger daughter went in and slept with him. Again he 
-                was not aware of it when she lay down or when she got up. So both 
-                of Lot’s daughters became pregnant by their father.” (Genesis 19:35)
-              </Typography>
-            </div>
-          </Paper>
-        </div>
-        <br/> <br/>
-        <div className={classes2.root}>
-          <Paper elevation={6}>
-            <div className={classes2.paperContent}>
-              <Typography paragraph>
-                That’s the end! Nothing bad happens to these folks. They bear 
-                sons and name them Moab and Ben. To recap: Roofie-ing one’s 
-                elderly father and raping him = fine. Agreeing to lead a slave 
-                rebellion for God but forget to circumcise your infant son = DEATH.
-              </Typography>
-            </div>
-          </Paper>
-        </div>
+        <Grid container className={classes3.root} spacing={4}>
+        {jobData?.map(job => {
+          return (
+            <Grid key={job._id} item>
+              <Paper elevation={6} style={{minWidth: 750}}>
+                <span style={{margin: '2rem'}}>
+                <div className={classes2.paperContent}>
+                  <h1>{job.title}</h1>
+                  <Rating name="read-only" value={job.total_rating/job.total_number_of_ratings} readOnly />
+                  <h2>{job.recruiter.name}, {job.recruiter.email}</h2>
+                  <Typography variant={'subtitle1'}>Job Requirements</Typography>
+                  <ul>
+                    <li>Deadline: {(new Date(job.deadline)).toDateString()}</li>
+                    <li>Type of Job: {job.type_of_job}</li>
+                    <li>Duration: {job.duration} Months</li>
+                    <li>Skills Required: {job.skills.map(skill => skill+", ")}</li>
+                  </ul>
+                  <Typography variant={'subtitle1'}>Further Job Details</Typography>
+                  <ul>
+                    <li>Positions Open: {job.max_number_of_positions}</li>
+                    <li>Maximum Applications (intaking): {job.max_number_of_applications}</li>
+                    <li>Salary: {job.salary}</li>
+                  </ul>
+                  <Typography variant={'subtitle1'}>Rating: {job.total_rating/job.total_number_of_ratings}</Typography>
+                </div>
+                </span>
+              </Paper>
+            </Grid>
+          )
+        })}
+        </Grid>
       </main>
     </div>
   );
