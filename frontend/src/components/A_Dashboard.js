@@ -2,11 +2,14 @@ import { React, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { 
-    Drawer, CssBaseline, AppBar,
-    Toolbar, List, Typography,
-    Divider, IconButton, ListItem,
-    ListItemIcon, ListItemText, 
-    Button, Paper, Grid
+  Drawer, CssBaseline, AppBar,
+  Toolbar, List, Typography,
+  Divider, IconButton, ListItem,
+  ListItemIcon, ListItemText, 
+  Button, Paper, Grid, Dialog,
+  TextField, DialogActions,
+  DialogContent, DialogContentText,
+  DialogTitle, TextareaAutosize
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -133,6 +136,52 @@ export default function PersistentDrawerLeft() {
 
   console.log('globalID ' + sessionStorage.getItem('globalID'));
 
+  const [openApply, setOpenApply] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpenApply(true);
+    setApplyJob({
+      id: " ",
+      name: " ",
+      email: " ",
+      sop: " "
+    });
+  };
+
+  const handleApplyClose = () => {
+    setOpenApply(false);
+    setApplyJob({
+      id: " ",
+      name: " ",
+      email: " ",
+      sop: " "
+    });
+  };
+
+  const [applyJob, setApplyJob] = useState({
+    id: " ",
+    name: " ",
+    email: " ",
+    sop: " "
+  });
+
+  const handleMakeApply = job => {
+    /*axios.post(`http://localhost:5000/jobs/apply/${job._id}`, applyJob)
+      .then(response => {
+        console.log(response);
+        setOpenApply(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setOpenApply(false);
+      });
+    axios.post(`http://localhost:5000/applicants/${sessionStorage.getItem('globalID')}`, {
+      id: job._id,
+      title: job.title,
+      email: job.recruiter.email
+    });*/
+  };
+
   const makeApplyButton = job => {
     if (job?.max_number_of_applications <= job?.applications?.length) {
       return (
@@ -151,11 +200,74 @@ export default function PersistentDrawerLeft() {
       }
     }
     return (
+      <div>
       <Button variant="contained" color="secondary"
-        onClick={console.log("ELON")}
+        onClick={handleClickOpen}
       >
         Apply
       </Button>
+      <Dialog open={openApply} onClose={handleApplyClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Apply</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To apply to this job, please enter the following details and click Apply.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id={`name ${job._id}`}
+            label="Name"
+            type="name"
+            fullWidth
+            onChange={event => {
+              setApplyJob({
+                ...applyJob,
+                id: sessionStorage.getItem('globalID'),
+                name: event.target.value
+              })
+            }}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id={`email ${job._id}`}
+            label="Email Address"
+            type="email"
+            fullWidth
+            onChange={event => {
+              setApplyJob({
+                ...applyJob,
+                email: event.target.value
+              })
+            }}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id={`sop ${job._id}`}
+            label="Statement of Purpose"
+            multiline
+            fullWidth
+            onChange={event => {
+              setApplyJob({
+                ...applyJob,
+                sop: event.target.value
+              })
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleApplyClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleMakeApply(job)} color="secondary">
+            Apply
+          </Button>
+        </DialogActions>
+      </Dialog>
+      </div>
     );
   }
 
