@@ -133,6 +133,32 @@ export default function PersistentDrawerLeft() {
 
   console.log('globalID ' + sessionStorage.getItem('globalID'));
 
+  const makeApplyButton = job => {
+    if (job?.max_number_of_applications <= job?.applications?.length) {
+      return (
+        <Button variant="contained" disabled>
+          Disabled
+        </Button>
+      );
+    }
+    for (let i = 0; i < job?.applications?.length; i += 1) {
+      if (sessionStorage.getItem('globalID') === job?.applications[i]?.id) {
+        return (
+          <Button variant="contained" color="primary" disabled>
+            Applied
+          </Button>
+        );
+      }
+    }
+    return (
+      <Button variant="contained" color="secondary"
+        onClick={console.log("ELON")}
+      >
+        Apply
+      </Button>
+    );
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -234,7 +260,9 @@ export default function PersistentDrawerLeft() {
                     <li>Maximum Applications (intaking): {job.max_number_of_applications}</li>
                     <li>Salary: {job.salary}</li>
                   </ul>
-                  <Typography variant={'subtitle1'}>Rating: {job.total_rating/job.total_number_of_ratings}</Typography>
+                  <Grid container justify="flex-end">
+                    {makeApplyButton(job)}
+                  </Grid>
                 </div>
                 </span>
               </Paper>
