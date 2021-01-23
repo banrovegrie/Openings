@@ -1,15 +1,12 @@
 import { React, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { 
+import {
   Drawer, CssBaseline, AppBar,
   Toolbar, List, Typography,
   Divider, IconButton, ListItem,
-  ListItemIcon, ListItemText, 
-  Button, Paper, Grid, Dialog,
-  TextField, DialogActions,
-  DialogContent, DialogContentText,
-  DialogTitle, TextareaAutosize
+  ListItemIcon, ListItemText,
+  Button, Paper
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -19,7 +16,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import axios from 'axios';
-import Rating from '@material-ui/lab/Rating';
 import { BrowserRouter as Router, useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -96,7 +92,7 @@ const useStyles2 = makeStyles((theme) => ({
   },
 }));
 
-const useStyles3 = makeStyles((theme) =>({
+const useStyles3 = makeStyles((theme) => ({
   root: {
     minWidth: 800,
   }
@@ -120,187 +116,19 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-  const [jobData, setJobData] = useState([]);
+  const [applicationsData, setApplicationsData] = useState([]);
   const [toAxios, setToAxios] = useState(true);
 
-  if (toAxios)
-  {
-    axios.get('http://localhost:5000/jobs')
+  if (toAxios) {
+    axios.get(`http://localhost:5000/applicants/${sessionStorage.getItem('globalID')}`)
       .then(res => {
-        setJobData(res.data);
+        setApplicationsData(res.data);
         setToAxios(false)
       });
-    console.log(jobData);
+    console.log(applicationsData);
   }
 
   console.log('globalID ' + sessionStorage.getItem('globalID'));
-
-  const [openApply, setOpenApply] = useState(false);
-
-  const handleClickOpen = (job) => {
-    setOpenApply(true);
-    setApplyJob({
-      id: " ",
-      name: " ",
-      email: " ",
-      sop: " "
-    });
-    setApplicantJob({
-      id: job._id,
-      title: job.title,
-      email: job.recruiter.email
-    });
-  };
-
-  const handleApplyClose = () => {
-    setOpenApply(false);
-  };
-
-  const [applyJob, setApplyJob] = useState({
-    id: " ",
-    name: " ",
-    email: " ",
-    sop: " "
-  });
-
-  const [applicantJob, setApplicantJob] = useState({
-    id: " ",
-    title: " ",
-    email: " ",
-  });
-
-  const handleMakeApply = () => {
-    console.log("Job", applyJob);
-    console.log("applicantJob in handle", applicantJob);
-
-    axios.post(`http://localhost:5000/jobs/apply/${applicantJob.id}`, applyJob)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    axios.post(`http://localhost:5000/applicants/apply/${sessionStorage.getItem('globalID')}`, applicantJob)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    
-    axios.post(`http://localhost:5000/jobs/update/status/${applicantJob.id}/${sessionStorage.getItem('globalID')}`, {
-      status: "Applied"
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    
-    axios.post(`http://localhost:5000/applicants/update/status/${sessionStorage.getItem('globalID')}/${applicantJob.id}`, {
-      status: "Applied"
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    handleApplyClose();
-    window.location.reload({forcedReload: false});
-  };
-
-  const makeApplyButton = job => {
-    if (job?.max_number_of_applications <= job?.applications?.length) {
-      return (
-        <Button variant="contained" disabled>
-          Disabled
-        </Button>
-      );
-    }
-    for (let i = 0; i < job?.applications?.length; i += 1) {
-      if (sessionStorage.getItem('globalID') === job?.applications[i]?.id) {
-        return (
-          <Button variant="contained" color="primary" disabled>
-            Applied
-          </Button>
-        );
-      }
-    }
-    return (
-      <div>
-      <Button variant="contained" color="secondary"
-        onClick={() => {handleClickOpen(job)}}
-      >
-        Apply
-      </Button>
-      <Dialog open={openApply} onClose={handleApplyClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Apply</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To apply to this job, please enter the following details and click Apply.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id={`name ${job._id}`}
-            label="Name"
-            type="name"
-            fullWidth
-            onChange={event => {
-              setApplyJob({
-                ...applyJob,
-                id: sessionStorage.getItem('globalID'),
-                name: event.target.value
-              });
-            }}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id={`email ${job._id}`}
-            label="Email Address"
-            type="email"
-            fullWidth
-            onChange={event => {
-              setApplyJob({
-                ...applyJob,
-                email: event.target.value
-              })
-            }}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id={`sop ${job._id}`}
-            label="Statement of Purpose"
-            multiline
-            fullWidth
-            onChange={event => {
-              setApplyJob({
-                ...applyJob,
-                sop: event.target.value
-              })
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleApplyClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleMakeApply} color="secondary">
-            Apply
-          </Button>
-        </DialogActions>
-      </Dialog>
-      </div>
-    );
-  }
 
   return (
     <div className={classes.root}>
@@ -322,7 +150,7 @@ export default function PersistentDrawerLeft() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Dashboard
+            My Applications
             {/*Dashboard, My Profile, My Applications*/}
           </Typography>
         </Toolbar>
@@ -343,6 +171,14 @@ export default function PersistentDrawerLeft() {
         </div>
         <Divider />
         <List>
+          <ListItem button key="dashboard"
+            onClick={() => {
+              history.push('/dashboard-applicant');
+            }}
+          >
+            <ListItemIcon><DashboardIcon /></ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
           <ListItem button key="profile"
             onClick={() => {
               history.push('/profile-applicant');
@@ -351,26 +187,18 @@ export default function PersistentDrawerLeft() {
             <ListItemIcon><NaturePeopleIcon /></ListItemIcon>
             <ListItemText primary="My Profile" />
           </ListItem>
-          <ListItem button key="my_applications"
-            onClick={() => {
-              history.push('/applications-applicant');
-            }}
-          >
-            <ListItemIcon><AssignmentTurnedInIcon /></ListItemIcon>
-            <ListItemText primary="My Applications" />
-          </ListItem>
         </List>
         <Divider />
         <List>
-            <ListItem button key='logout' 
-              onClick={() => {
-                sessionStorage.setItem('globalID', '0');
-                history.push('/');
-              }}
-            >
-              <ListItemIcon><LockIcon /></ListItemIcon>
-              <ListItemText primary='Logout' />
-            </ListItem>
+          <ListItem button key='logout'
+            onClick={() => {
+              sessionStorage.setItem('globalID', '0');
+              history.push('/');
+            }}
+          >
+            <ListItemIcon><LockIcon /></ListItemIcon>
+            <ListItemText primary='Logout' />
+          </ListItem>
         </List>
       </Drawer>
       <main
@@ -379,7 +207,6 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <div className={classes.drawerHeader} />
-
         <Grid container className={classes3.root} spacing={4}>
         {jobData?.map(job => {
           return (

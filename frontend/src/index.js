@@ -5,6 +5,7 @@ import R_SignUp from './components/R_SignUp'
 import A_SignUp from './components/A_SignUp'
 import A_Dashboard from './components/A_Dashboard'
 import A_Profile from './components/A_Profile'
+import A_Applications from './components/A_Applications'
 import { /*Link,*/ BrowserRouter as Router, Route} from 'react-router-dom';
 
 ReactDOM.render(
@@ -28,6 +29,10 @@ ReactDOM.render(
 
     <Route path='/profile-applicant' exact>
       <A_Profile />
+    </Route>
+
+    <Route path='/applications-applicant' exact>
+      <A_Applications />
     </Route>
 
   </Router>,
