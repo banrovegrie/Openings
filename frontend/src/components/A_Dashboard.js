@@ -224,7 +224,7 @@ export default function PersistentDrawerLeft() {
     for (let i = 0; i < job?.applications?.length; i += 1) {
       if (sessionStorage.getItem('globalID') === job?.applications[i]?.id) {
         return (
-          <Button variant="contained" color="primary" disabled>
+          <Button variant="contained" style={{backgroundColor: '#d4ebf2'}} disabled>
             Applied
           </Button>
         );

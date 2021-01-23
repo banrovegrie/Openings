@@ -6,7 +6,7 @@ import {
   Toolbar, List, Typography,
   Divider, IconButton, ListItem,
   ListItemIcon, ListItemText,
-  Button, Paper
+  Button, Paper, Grid
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -14,6 +14,8 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
+import Rating from '@material-ui/lab/Rating'
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import axios from 'axios';
 import { BrowserRouter as Router, useHistory } from 'react-router-dom';
@@ -117,15 +119,29 @@ export default function PersistentDrawerLeft() {
   };
 
   const [applicationsData, setApplicationsData] = useState([]);
+  const [jobData, setJobData] = useState([]);
   const [toAxios, setToAxios] = useState(true);
+  const [toAxios2, setToAxios2] = useState(true);
 
-  if (toAxios) {
+  if (toAxios) 
+  {
     axios.get(`http://localhost:5000/applicants/${sessionStorage.getItem('globalID')}`)
       .then(res => {
         setApplicationsData(res.data);
         setToAxios(false)
       });
     console.log(applicationsData);
+    console.log(applicationsData.applications);
+  }
+
+  if (toAxios2)
+  {
+    axios.get('http://localhost:5000/jobs')
+      .then(res => {
+        setJobData(res.data);
+        setToAxios2(false)
+      });
+    console.log(jobData);
   }
 
   console.log('globalID ' + sessionStorage.getItem('globalID'));
@@ -208,38 +224,67 @@ export default function PersistentDrawerLeft() {
       >
         <div className={classes.drawerHeader} />
         <Grid container className={classes3.root} spacing={4}>
-        {jobData?.map(job => {
-          return (
-            <Grid key={job._id} item>
-              <Paper elevation={6} style={{minWidth: 750}}>
-                <span style={{margin: '2rem'}}>
-                <div className={classes2.paperContent}>
-                  <h1>{job.title}</h1>
-                  <Rating name="read-only" value={job.total_rating/job.total_number_of_ratings} readOnly />
-                  <h2>{job.recruiter.name}, {job.recruiter.email}</h2>
-                  <Typography variant={'subtitle1'}>Job Requirements</Typography>
-                  <ul>
-                    <li>Deadline: {(new Date(job.deadline)).toDateString()}</li>
-                    <li>Type of Job: {job.type_of_job}</li>
-                    <li>Duration: {job.duration} Months</li>
-                    <li>Skills Required: {job.skills.join(", ")}</li>
-                  </ul>
-                  <Typography variant={'subtitle1'}>Further Job Details</Typography>
-                  <ul>
-                    <li>Positions Open: {job.max_number_of_positions}</li>
-                    <li>Maximum Applications (intaking): {job.max_number_of_applications}</li>
-                    <li>Salary: {job.salary}</li>
-                  </ul>
-                  <Grid container justify="flex-end">
-                    {
-                      makeApplyButton(job)
-                    }
-                  </Grid>
-                </div>
-                </span>
-              </Paper>
-            </Grid>
-          )
+        {applicationsData?.applications?.map(app => {
+          
+          for (let i = 0; i < jobData.length; i++)
+          {
+            if (app.id === jobData[i]._id){
+              return (
+                <Grid key={jobData[i]._id} item>
+                  <Paper elevation={6} style={{minWidth: 750}}>
+                    <span style={{margin: '2rem'}}>
+                    <div className={classes2.paperContent}>
+                      <h1>{jobData[i].title}</h1>
+                      <Rating name="read-only" value={jobData[i]?.total_rating/jobData[i]?.total_number_of_ratings} readOnly />
+                      <h3>{`${jobData[i].recruiter.name}`}</h3>
+                      <Typography variant={'subtitle1'}>
+                        <ul>
+                          <li>Connect: {jobData[i].recruiter.email}</li>
+                          <li>Salary: {jobData[i].salary}</li>
+                          <li>Date of Joining: {"NIL"}</li>
+                          <li>Rating: {jobData[i]?.total_rating/jobData[i]?.total_number_of_ratings}</li>
+                        </ul>
+                      </Typography>
+                      <Grid container justify="flex-end">
+                        {
+                          //Applied, Shortlisted, Accepted, Rejected, Rated
+                          (app.status !== "Accepted")?
+                          <div>
+                          <Button variant="contained" style={{backgroundColor: '#ffbf00'}}>
+                            {app.status}
+                          </Button>
+                          &nbsp;	&nbsp;
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            disabled
+                            startIcon={<ThumbUpIcon />}
+                          >
+                            Click to Rate
+                          </Button>
+                          </div>
+                          :
+                          <div>
+                          <Button variant="contained" color="primary">
+                            Accepted
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<ThumbUpIcon />}
+                          >
+                            Click to Rate
+                          </Button>
+                          </div>
+                        }
+                      </Grid>
+                    </div>
+                    </span>
+                  </Paper>
+                </Grid>
+              )
+            }
+          }
         })}
         </Grid>
       </main>

@@ -75,6 +75,19 @@ router.route('/update/:_id').post((req, res) => {
 	  .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Update job rating (by recruiter)
+router.route('/rating/update/:_id').post((req, res) => {
+	Applicant.findById(req.params._id)
+		.then(applicant => {
+			applicant.total_rating = req.body.total_rating;
+			applicant.total_number_of_ratings = req.body.total_number_of_ratings;
+			applicant.save()
+				.then(() => res.json('Rating updated!'))
+				.catch(err => res.status(400).json('Error: ' + err));
+		})
+		.catch(err => res.status(400).json('Error: ' + err));
+});
+
 // Add application by applicant
 /*
 {
