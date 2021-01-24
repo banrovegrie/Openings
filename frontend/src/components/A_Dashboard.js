@@ -170,6 +170,7 @@ export default function PersistentDrawerLeft() {
   });
 
   const handleMakeApply = () => {
+    //event.preventDefault();
     console.log("Job", applyJob);
     console.log("applicantJob in handle", applicantJob);
 

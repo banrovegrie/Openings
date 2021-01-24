@@ -6,7 +6,7 @@ import {
   Toolbar, List, Typography,
   Divider, IconButton, ListItem,
   ListItemIcon, ListItemText,
-  Button, Paper, Grid
+  Button, Paper, Grid, Popover
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -16,6 +16,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
 import Rating from '@material-ui/lab/Rating'
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import SaveIcon from '@material-ui/icons/Save';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import axios from 'axios';
 import { BrowserRouter as Router, useHistory } from 'react-router-dom';
@@ -146,6 +147,19 @@ export default function PersistentDrawerLeft() {
 
   console.log('globalID ' + sessionStorage.getItem('globalID'));
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [rateValue, setRateValue] = useState(0);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openRate = Boolean(anchorEl);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -248,7 +262,7 @@ export default function PersistentDrawerLeft() {
                       <Grid container justify="flex-end">
                         {
                           //Applied, Shortlisted, Accepted, Rejected, Rated
-                          (app.status !== "Accepted")?
+                          (app.status === "Accepted")?
                           <div>
                           <Button variant="contained" style={{backgroundColor: '#ffbf00'}}>
                             {app.status}
@@ -257,24 +271,94 @@ export default function PersistentDrawerLeft() {
                           <Button
                             variant="contained"
                             color="primary"
-                            disabled
+                            //disabled
+                            onClick={handleClick}
                             startIcon={<ThumbUpIcon />}
                           >
                             Click to Rate
                           </Button>
+                          <Popover
+                            id={app.id}
+                            open={openRate}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'center',
+                            }}
+                            transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'center',
+                            }}
+                          >
+                            <span style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                margin: '0.5rem'
+                              }}
+                            >
+                              <Rating
+                                name="simple-controlled"
+                                value={rateValue}
+                                onChange={(event, newValue) => {
+                                  setRateValue(newValue);
+                                }}
+                              />
+                              <IconButton aria-label="submit" color="primary">
+                                <SaveIcon />
+                              </IconButton>
+                            </span>
+                          </Popover>
                           </div>
                           :
                           <div>
                           <Button variant="contained" color="primary">
-                            Accepted
+                            {app.status}
                           </Button>
+                          &nbsp;	&nbsp;
                           <Button
                             variant="contained"
                             color="primary"
+                            disabled
+                            onClick={handleClick}
                             startIcon={<ThumbUpIcon />}
                           >
                             Click to Rate
                           </Button>
+                          <Popover
+                            id={app.id}
+                            open={openRate}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'center',
+                            }}
+                            transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'center',
+                            }}
+                          >
+                            <span style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                margin: '0.5rem'
+                              }}
+                            >
+                              <Rating
+                                name="simple-controlled"
+                                value={rateValue}
+                                onChange={(event, newValue) => {
+                                  setRateValue(newValue);
+                                }}
+                              />
+                              <IconButton aria-label="submit" color="primary">
+                                <SaveIcon />
+                              </IconButton>
+                            </span>
+                          </Popover>
                           </div>
                         }
                       </Grid>
