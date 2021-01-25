@@ -218,7 +218,16 @@ export default function PersistentDrawerLeft() {
     if (job?.max_number_of_applications <= job?.applications?.length) {
       return (
         <Button variant="contained" disabled>
-          Disabled
+          Full
+        </Button>
+      );
+    }
+    else if (job?.max_number_of_positions <= job?.applications?.reduce(function(previousValue, currentObject) {
+        return previousValue + (currentObject?.status?.substring(0, 3) === "Acc" ? 1: 0); 
+      }, 0)) {
+      return (
+        <Button variant="contained" disabled>
+          Full
         </Button>
       );
     }
@@ -324,7 +333,6 @@ export default function PersistentDrawerLeft() {
           </IconButton>
           <Typography variant="h6" noWrap>
             Dashboard
-            {/*Dashboard, My Profile, My Applications*/}
           </Typography>
         </Toolbar>
       </AppBar>
