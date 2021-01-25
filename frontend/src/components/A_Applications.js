@@ -149,9 +149,20 @@ export default function PersistentDrawerLeft() {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [rateValue, setRateValue] = useState(0);
+  const [jobRateDetails, setJobRateDetails] = useState({
+    id: " ",
+    total_rating: 0,
+    total_number_of_ratings: 0
+  });
 
-  const handleClick = (event) => {
+  const handleClick = (event, job) => {
     setAnchorEl(event.currentTarget);
+    setRateValue(0);
+    setJobRateDetails({
+      id: job._id,
+      total_rating: job.total_rating,
+      total_number_of_ratings: job.total_number_of_ratings
+    });
   };
 
   const handleClose = () => {
@@ -159,6 +170,36 @@ export default function PersistentDrawerLeft() {
   };
 
   const openRate = Boolean(anchorEl);
+
+  const handleRateSave = (event, val) => {
+    event.preventDefault();
+    console.log(val);
+    console.log(jobRateDetails);
+    
+    axios.post(`http://localhost:5000/jobs/rating/update/${jobRateDetails.id}`, {
+      total_rating: (jobRateDetails.total_rating + val),
+	    total_number_of_ratings: (jobRateDetails.total_number_of_ratings + 1)
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      
+    axios.post(`http://localhost:5000/applicants/update/status/${sessionStorage.getItem('globalID')}/${jobRateDetails.id}`, {
+      status: `Accepted and Rated ${val}/5`
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  
+    handleClose();
+    window.location.reload({forcedReload: false});
+  };
 
   return (
     <div className={classes.root}>
@@ -271,8 +312,7 @@ export default function PersistentDrawerLeft() {
                           <Button
                             variant="contained"
                             color="primary"
-                            //disabled
-                            onClick={handleClick}
+                            onClick={(event) => handleClick(event, jobData[i])}
                             startIcon={<ThumbUpIcon />}
                           >
                             Click to Rate
@@ -305,7 +345,9 @@ export default function PersistentDrawerLeft() {
                                   setRateValue(newValue);
                                 }}
                               />
-                              <IconButton aria-label="submit" color="primary">
+                              <IconButton id={app.id} aria-label="submit" color="primary"
+                                onClick={(event) => handleRateSave(event, rateValue)}
+                              >
                                 <SaveIcon />
                               </IconButton>
                             </span>
@@ -326,39 +368,6 @@ export default function PersistentDrawerLeft() {
                           >
                             Click to Rate
                           </Button>
-                          <Popover
-                            id={app.id}
-                            open={openRate}
-                            anchorEl={anchorEl}
-                            onClose={handleClose}
-                            anchorOrigin={{
-                              vertical: 'bottom',
-                              horizontal: 'center',
-                            }}
-                            transformOrigin={{
-                              vertical: 'top',
-                              horizontal: 'center',
-                            }}
-                          >
-                            <span style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                margin: '0.5rem'
-                              }}
-                            >
-                              <Rating
-                                name="simple-controlled"
-                                value={rateValue}
-                                onChange={(event, newValue) => {
-                                  setRateValue(newValue);
-                                }}
-                              />
-                              <IconButton aria-label="submit" color="primary">
-                                <SaveIcon />
-                              </IconButton>
-                            </span>
-                          </Popover>
                           </div>
                         }
                       </Grid>

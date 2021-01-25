@@ -21,8 +21,8 @@ router.route('/add').post((req, res) => {
 	const type_of_job = req.body.type_of_job;
 	const duration = +Number(req.body.duration);
 	const salary = +Number(req.body.salary);
-	const total_rating = +Number(req.body.total_rating);
-	const total_number_of_ratings = +Number(req.body.total_number_of_ratings);
+	//const total_rating = +Number(req.body.total_rating);
+	//const total_number_of_ratings = +Number(req.body.total_number_of_ratings);
 
 	const newJob = new Job({
 		title,
@@ -38,9 +38,7 @@ router.route('/add').post((req, res) => {
 		skills,
 		type_of_job,
 		duration,
-		salary,
-		total_rating,
-		total_number_of_ratings
+		salary
 	});
 
     newJob.save()
