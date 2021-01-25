@@ -1,12 +1,12 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { 
-    Drawer, CssBaseline, AppBar,
-    Toolbar, List, Typography,
-    Divider, IconButton, ListItem,
-    ListItemIcon, ListItemText, 
-    Button, Paper
+import {
+  Drawer, CssBaseline, AppBar,
+  Toolbar, List, Typography,
+  Divider, IconButton, ListItem,
+  ListItemIcon, ListItemText,
+  Button, Paper
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   },
@@ -130,7 +129,6 @@ export default function PersistentDrawerLeft() {
           </IconButton>
           <Typography variant="h6" noWrap>
             Dashboard
-            {/*Dashboard, My Profile, My Applications*/}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -150,14 +148,6 @@ export default function PersistentDrawerLeft() {
         </div>
         <Divider />
         <List>
-          <ListItem button key="dashboard"
-              onClick={() => {
-                history.push('/dashboard-recruiter');
-              }}
-          >
-            <ListItemIcon><DashboardIcon /></ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
           <ListItem button key="profile"
             onClick={() => {
               history.push('/profile-recruiter');
@@ -177,15 +167,15 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-            <ListItem button key='logout' 
-              onClick={() => {
-                sessionStorage.setItem('globalID', '0');
-                history.push('/');
-              }}
-            >
-              <ListItemIcon><LockIcon /></ListItemIcon>
-              <ListItemText primary='Logout' />
-            </ListItem>
+          <ListItem button key='logout'
+            onClick={() => {
+              sessionStorage.setItem('globalID', '0');
+              history.push('/');
+            }}
+          >
+            <ListItemIcon><LockIcon /></ListItemIcon>
+            <ListItemText primary='Logout' />
+          </ListItem>
         </List>
       </Drawer>
       <main
@@ -199,40 +189,40 @@ export default function PersistentDrawerLeft() {
         <div className={classes2.root}>
           <Paper elevation={6}>
             <div className={classes2.paperContent}>
-            <Typography paragraph>
-              After Sodom was destroyed, Lot took his two daughters to 
-              live with them in a cave (like ya do). One day, his older 
-              daughter said to the younger: “Our father is old, and there 
-              is no man around here to give us children — as is the custom 
-              all over the earth. Let’s get our father to drink wine and then 
-              sleep with him and preserve our family line through our father.” (Genesis 19:30)
+              <Typography paragraph>
+                After Sodom was destroyed, Lot took his two daughters to
+                live with them in a cave (like ya do). One day, his older
+                daughter said to the younger: “Our father is old, and there
+                is no man around here to give us children — as is the custom
+                all over the earth. Let’s get our father to drink wine and then
+                sleep with him and preserve our family line through our father.” (Genesis 19:30)
             </Typography>
             </div>
           </Paper>
         </div>
-        <br/> <br/>
+        <br /> <br />
         <div className={classes2.root}>
           <Paper elevation={6}>
             <div className={classes2.paperContent}>
               <Typography paragraph>
-                This plan worked out so well that the younger daughter did 
-                it the following night, with Lot being entirely unaware of it 
-                again, somehow! “So they got their father to drink wine that night 
-                also, and the younger daughter went in and slept with him. Again he 
-                was not aware of it when she lay down or when she got up. So both 
+                This plan worked out so well that the younger daughter did
+                it the following night, with Lot being entirely unaware of it
+                again, somehow! “So they got their father to drink wine that night
+                also, and the younger daughter went in and slept with him. Again he
+                was not aware of it when she lay down or when she got up. So both
                 of Lot’s daughters became pregnant by their father.” (Genesis 19:35)
               </Typography>
             </div>
           </Paper>
         </div>
-        <br/> <br/>
+        <br /> <br />
         <div className={classes2.root}>
           <Paper elevation={6}>
             <div className={classes2.paperContent}>
               <Typography paragraph>
-                That’s the end! Nothing bad happens to these folks. They bear 
-                sons and name them Moab and Ben. To recap: Roofie-ing one’s 
-                elderly father and raping him = fine. Agreeing to lead a slave 
+                That’s the end! Nothing bad happens to these folks. They bear
+                sons and name them Moab and Ben. To recap: Roofie-ing one’s
+                elderly father and raping him = fine. Agreeing to lead a slave
                 rebellion for God but forget to circumcise your infant son = DEATH.
               </Typography>
             </div>
