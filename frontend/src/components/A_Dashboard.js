@@ -260,7 +260,7 @@ export default function PersistentDrawerLeft() {
             margin="dense"
             id={`name ${job._id}`}
             label="Name"
-            type="name"
+            type="string"
             fullWidth
             onChange={event => {
               setApplyJob({
@@ -275,7 +275,7 @@ export default function PersistentDrawerLeft() {
             margin="dense"
             id={`email ${job._id}`}
             label="Email Address"
-            type="email"
+            type="string"
             fullWidth
             onChange={event => {
               setApplyJob({

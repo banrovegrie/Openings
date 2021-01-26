@@ -6,7 +6,9 @@ import {
   Toolbar, List, Typography,
   Divider, IconButton, ListItem,
   ListItemIcon, ListItemText,
-  Button, Paper, Grid
+  Button, Paper, Grid, TextField,
+  Dialog, DialogActions, DialogContent,
+  DialogTitle, DialogContentText
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -130,13 +132,69 @@ export default function PersistentDrawerLeft() {
         setToAxios(false)
       });
     console.log(jobData);
-  }
+  };
 
   const handleViewApp = (event, job) => {
     event.preventDefault();
+    console.log(job._id + ": " + job.title);
     sessionStorage.setItem('jobID', job._id);
     history.push('/recruiter/job_applications');
-  }
+  };
+
+  const [openApply, setOpenApply] = useState(false);
+  const [atJob, setAtJob] = useState({
+    id: " ",
+    title: " "
+  });
+  const [editJob, setEditJob] = useState({
+    max_number_of_applications: 0,
+    max_number_of_positions: 0,
+    deadline: 0
+  });
+
+  const handleApplyClose = () => {
+    setOpenApply(false);
+  };
+
+  const handleMakeApply = () => {
+    console.log(atJob);
+    console.log(editJob);
+  
+    axios.post(`http://localhost:5000/jobs/update/${atJob.id}`, editJob)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    
+    handleApplyClose();
+    window.location.reload({forcedReload: false});
+  };
+
+  const handleEditJob = (job) => {
+    console.log(job._id + ": " + job.title);
+    setAtJob({
+      id: job._id,
+      title: job.title
+    });
+    setOpenApply(true);
+  };
+
+  const handleDeleteJob = (job) => {
+    console.log(job._id + ": " + job.title);
+
+    for (let i = 0; i < job?.applications?.length; i++)
+    {
+      axios.post(`http://localhost:5000/applicants/update/status/${job.applications[i].id}/${job._id}`, {
+        status: "Job Deleted"
+      })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    }
+
+    axios.delete(`http://localhost:5000/jobs/${job._id}`)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+
+    window.location.reload({forcedReload: false});
+  };
 
   return (
     <div className={classes.root}>
@@ -235,16 +293,77 @@ export default function PersistentDrawerLeft() {
                   </Typography>
                   <Grid container justify="flex-end">
                     <IconButton aria-label="delete" color="secondary"
-                      //onClick={() => handleEditJob(job)}
+                      onClick={() => handleDeleteJob(job)}
                     >
                       <DeleteIcon />
                     </IconButton>
                     &nbsp; &nbsp;
                     <IconButton aria-label="edit" color="primary"
-                      //onClick={() => handleDeleteJob(job)}
+                      onClick={() => handleEditJob(job)}
                     >
                       <EditIcon />
                     </IconButton>
+                    <Dialog open={openApply} onClose={handleApplyClose}
+                      aria-labelledby="form-dialog-title"
+                    >
+                      <DialogTitle id="form-dialog-title">Edit Job: {atJob.title}</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>
+                        </DialogContentText>
+                        <TextField
+                          id={`deadline ${atJob.id}`}
+                          label="Deadline"
+                          type="date"
+                          variant="outlined"
+                          className={classes.textField}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          onChange={event => {
+                            setEditJob({
+                              ...editJob,
+                              deadline: event.target.value
+                            });
+                          }}
+                        />
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          id={`max app ${atJob.id}`}
+                          label="Maximum Number of Applications"
+                          type="number"
+                          fullWidth
+                          onChange={(event) => {
+                            setEditJob({
+                              ...editJob,
+                              max_number_of_applications: event.target.value
+                            });
+                          }}
+                        />
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          id={`max pos ${atJob.id}`}
+                          label="Maximum Number of Positions"
+                          type="number"
+                          fullWidth
+                          onChange={(event) => {
+                            setEditJob({
+                              ...editJob,
+                              max_number_of_positions: event.target.value
+                            });
+                          }}
+                        />
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleApplyClose} color="primary">
+                          Cancel
+                        </Button>
+                        <Button onClick={handleMakeApply} color="secondary">
+                          Edit
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                     &nbsp; &nbsp; &nbsp;
                     <Button variant="contained" style={{backgroundColor: '#ffbf57'}}
                       onClick={(event) => handleViewApp(event, job)}
