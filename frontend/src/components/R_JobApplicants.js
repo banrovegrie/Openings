@@ -178,6 +178,18 @@ export default function PersistentDrawerLeft() {
       .then(res => console.log(res))
       .catch(err => console.log(err));
     
+    axios.get(`http://localhost:5000/recruiters/${sessionStorage.getItem('globalID')}`)
+      .then(res => {
+        console.log(res);
+        axios.post('http://localhost:5000/recruiters/mail', {
+          name: res.data.name,
+          email: app?.email
+        })
+          .then(response => console.log(response))
+          .catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
+
     window.location.reload({forcedReload: false});
   };
 
