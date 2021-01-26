@@ -1,12 +1,12 @@
 import { React, useStyles } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { 
-    Drawer, CssBaseline, AppBar,
-    Toolbar, List, Typography,
-    Divider, IconButton, ListItem,
-    ListItemIcon, ListItemText, 
-    Button, Paper
+import {
+  Drawer, CssBaseline, AppBar,
+  Toolbar, List, Typography,
+  Divider, IconButton, ListItem,
+  ListItemIcon, ListItemText,
+  Button, Paper
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -158,9 +158,9 @@ export default function PersistentDrawerLeft() {
         <Divider />
         <List>
           <ListItem button key="dashboard"
-              onClick={() => {
-                history.push('/dashboard-recruiter');
-              }}
+            onClick={() => {
+              history.push('/dashboard-recruiter');
+            }}
           >
             <ListItemIcon><DashboardIcon /></ListItemIcon>
             <ListItemText primary="Dashboard" />
@@ -184,15 +184,15 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-            <ListItem button key='logout' 
-              onClick={() => {
-                sessionStorage.setItem('globalID', '0');
-                history.push('/');
-              }}
-            >
-              <ListItemIcon><LockIcon /></ListItemIcon>
-              <ListItemText primary='Logout' />
-            </ListItem>
+          <ListItem button key='logout'
+            onClick={() => {
+              sessionStorage.setItem('globalID', '0');
+              history.push('/');
+            }}
+          >
+            <ListItemIcon><LockIcon /></ListItemIcon>
+            <ListItemText primary='Logout' />
+          </ListItem>
         </List>
       </Drawer>
       <main
@@ -201,7 +201,7 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <div className={classes.drawerHeader} />
-        
+
       </main>
     </div>
   );
