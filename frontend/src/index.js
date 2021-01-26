@@ -10,6 +10,7 @@ import R_Profile from './components/R_Profile'
 import R_CreateJob from './components/R_CreateJob'
 import R_Dashboard from './components/R_Dashboard'
 import R_JobApplicants from './components/R_JobApplicants'
+import R_Employees from './components/R_Employees'
 import { /*Link,*/ BrowserRouter as Router, Route} from 'react-router-dom';
 
 ReactDOM.render(
@@ -53,6 +54,10 @@ ReactDOM.render(
 
     <Route path='/recruiter/job_applications' exact>
       <R_JobApplicants />
+    </Route>
+
+    <Route path='/employees-recruiter' exact>
+      <R_Employees />
     </Route>
 
   </Router>,

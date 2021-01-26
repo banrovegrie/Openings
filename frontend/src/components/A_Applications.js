@@ -14,7 +14,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
-import Rating from '@material-ui/lab/Rating'
+import Rating from '@material-ui/lab/Rating';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import SaveIcon from '@material-ui/icons/Save';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
