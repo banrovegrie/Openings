@@ -16,7 +16,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
@@ -297,6 +297,14 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
+          <ListItem button key="employees"
+            onClick={() => {
+              history.push('/employees-recruiter');
+            }}
+          >
+            <ListItemIcon><AssignmentIndIcon /></ListItemIcon>
+            <ListItemText primary="My Employees" />
+          </ListItem>
           <ListItem button key='logout'
             onClick={() => {
               sessionStorage.setItem('globalID', '0');

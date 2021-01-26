@@ -103,7 +103,7 @@ router.route('/apply/:_id').post((req, res) => {
 				id: req.body.id,
 				name: req.body.name,
 				email: req.body.email,
-				SOP: req.body.SOP,
+				SOP: req.body.sop,
 				status: "Applied"
 			};
 			job.applications.push(application);

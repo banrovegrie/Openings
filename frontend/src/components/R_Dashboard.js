@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import MenuIcon from '@material-ui/icons/Menu';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -255,6 +256,14 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
+          <ListItem button key="employees"
+            onClick={() => {
+              history.push('/employees-recruiter');
+            }}
+          >
+            <ListItemIcon><AssignmentIndIcon /></ListItemIcon>
+            <ListItemText primary="My Employees" />
+          </ListItem>
           <ListItem button key='logout'
             onClick={() => {
               sessionStorage.setItem('globalID', '0');
@@ -284,7 +293,9 @@ export default function PersistentDrawerLeft() {
                   <Typography variant={'subtitle1'}>
                   <ul>
                     <li><a style={{textDecorationLine: 'underline'}}>Date of Posting</a>: {(new Date(job.createdAt)).toDateString()}</li>
-                    <li><a style={{textDecorationLine: 'underline'}}>Number of Applicants</a>: {job?.applications?.length}</li>
+                    <li><a style={{textDecorationLine: 'underline'}}>Number of Applicants</a>: {job?.applications?.length - job?.applications?.reduce(function(previousValue, currentObject) {
+                        return previousValue + (currentObject?.status === "Rejected" ? 1: 0); 
+                      }, 0)}</li>
                     <li><a style={{textDecorationLine: 'underline'}}>Remaining Number of Positions</a>: {
                       job.max_number_of_positions -  job?.applications?.reduce(function(previousValue, currentObject) {
                         return previousValue + (currentObject?.status?.substring(0, 3) === "Acc" ? 1: 0); 
